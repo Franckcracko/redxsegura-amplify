@@ -30,6 +30,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { toast } from "sonner"
 
 const toolsWork = [
   { value: "taladro", label: "Taladro Eléctrico" },
@@ -105,6 +106,7 @@ export default function OnboardingPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     console.log("Datos enviados:", formData)
+    toast("¡Datos enviados con éxito!")
     // Aquí iría la lógica para enviar los datos
     router.push("/dashboard") // Redirigir al dashboard después de completar
   }

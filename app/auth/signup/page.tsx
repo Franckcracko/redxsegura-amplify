@@ -61,17 +61,22 @@ export default function SignupPage() {
 
   const handleSubmit = async () => {
     try {
-      const { isSignUpComplete, nextStep } = await signUp({
+      await signUp({
         username: formData.email,
         password: formData.password,
         options: {
           userAttributes: {
             email: formData.email,
-            phone_number: formData.phone
+            phone_number: formData.phone,
+            address: formData.address,
+            birthdate: formData.birthDate,
+            given_name: formData.firstname,
+            family_name: formData.lastname
           },
           clientMetadata: {
             onboarding: ''
-          }
+          },
+          autoSignIn: true
         }
       });
 
@@ -91,11 +96,7 @@ export default function SignupPage() {
         documentValidated: formData.documentValidated
       })
 
-      console.log(nextStep)
-
-      if (isSignUpComplete) {
-        router.push("/auth/verification")
-      }
+      router.push("/auth/verification")
     } catch (error) {
       console.error(error)
       toast.error("Error al crear usuario", {

@@ -47,7 +47,7 @@ export default function VerificationPage() {
       });
 
       if (confirmSignUpNextStep.signUpStep === 'DONE') {
-        return router.replace("/dashboard")
+        return router.replace("/auth/onboarding")
       }
     } catch (error) {
       console.error("Error al verificar el código:", error)

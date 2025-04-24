@@ -1,3 +1,5 @@
+"use client";
+
 import Header from "@/components/header"
 import BottomNav from "@/components/bottom-nav"
 import { Card } from "@/components/ui/card"
@@ -6,8 +8,32 @@ import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Settings } from "lucide-react"
+import { UserAttributeKey, fetchUserAttributes, signOut } from "aws-amplify/auth";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function Perfil() {
+  const router = useRouter()
+  const [dataUser, setDataUser] = useState<Partial<Record<UserAttributeKey, string>>>({})
+  const handleSignOut = async () => {
+    await signOut()
+    router.replace("/auth/login")
+  }
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await fetchUserAttributes()
+        setDataUser(response)
+      } catch (error) {
+        console.log(error)
+        router.replace("/login")
+      }
+    }
+    getData()
+  }, [])
+
+
   return (
     <div className="flex flex-col h-screen bg-white">
       <Header />
@@ -26,7 +52,7 @@ export default function Perfil() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="nombre">Nombre completo</Label>
-              <Input id="nombre" defaultValue="María González" className="rounded-lg border-gray-200" />
+              <Input id="nombre" defaultValue={dataUser.given_name + " " + dataUser.family_name} className="rounded-lg border-gray-200" />
             </div>
 
             <div className="space-y-2">
@@ -34,14 +60,14 @@ export default function Perfil() {
               <Input
                 id="email"
                 type="email"
-                defaultValue="maria.gonzalez@ejemplo.com"
+                defaultValue={dataUser.email}
                 className="rounded-lg border-gray-200"
               />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="telefono">Teléfono</Label>
-              <Input id="telefono" type="tel" defaultValue="+52 55 1234 5678" className="rounded-lg border-gray-200" />
+              <Input id="telefono" type="tel" defaultValue={dataUser.phone_number} className="rounded-lg border-gray-200" />
             </div>
 
             <Button variant="outline" className="w-full rounded-lg border-gray-200">
@@ -85,6 +111,7 @@ export default function Perfil() {
             </div>
 
             <Button className="w-full rounded-lg bg-red-600 hover:bg-red-700">Guardar preferencias</Button>
+            <Button variant={"ghost"} className="w-full rounded-lg hover:bg-red-700" onClick={handleSignOut}>Cerrar sesión</Button>
           </div>
         </Card>
       </main>
