@@ -52,7 +52,7 @@ export default function Perfil() {
           <div className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="nombre">Nombre completo</Label>
-              <Input id="nombre" defaultValue={dataUser.given_name + " " + dataUser.family_name} className="rounded-lg border-gray-200" />
+              <Input id="nombre" defaultValue={`${dataUser.given_name} ${dataUser.family_name}`} className="rounded-lg border-gray-200" />
             </div>
 
             <div className="space-y-2">
