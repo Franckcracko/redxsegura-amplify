@@ -12,7 +12,7 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.guest()]),
-  User: a
+    User: a
     .model({
       id: a.id().required(),
       firstname: a.string().required(),
@@ -30,7 +30,7 @@ const schema = a.schema({
       emailRefer: a.string(),
       acceptTerms: a.boolean().required(),
     })
-  
+    .authorization((allow) => [allow.guest()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
