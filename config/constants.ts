@@ -1,0 +1,1 @@
+export const apikeyVerificamex = process.env.NEXT_PUBLIC_VERICAMEX_API_KEY
